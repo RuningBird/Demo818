@@ -53,10 +53,13 @@ def get_ships(excel_ship_file):
     return ships
 
 
+# /home/hr/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921/Series 1 - 10/Series_1_vtls004566957/File_1-1_vtls004583057.xlsx
+
 if __name__ == "__main__":
     # get the name of the Excel File
     print("Input the name of the Excel Ship File")
-    excel_ship_file = sys.stdin.readline().strip()
+    # excel_ship_file = sys.stdin.readline().strip()
+    excel_ship_file = "/home/hr/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921/Series 1 - 10/Series_1_vtls004566957/File_1-1_vtls004583057.xlsx"
 
     ships = get_ships(excel_ship_file)
     for ship in ships:

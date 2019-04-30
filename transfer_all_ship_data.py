@@ -3,6 +3,9 @@
 # get a connection to MongoDB
 from pymongo import MongoClient
 
+import os
+import get_ships
+
 user = 'eds'
 dbpath = 'nosql.dcs.aber.ac.uk/eds'
 password = '*********'
@@ -12,14 +15,9 @@ client = MongoClient(connection_string)
 
 db = client.eds
 
-# walk the ship data directory to find the excel files
-
-import os
-import get_ships
-
 all_ships = []
 
-ships_dir = '/aber/eds/mongodb/prac2/ABERSHIP_transcription_vtls004566921/ABERSHIP_transcription_vtls004566921'
+ships_dir = '/ABERSHIP_transcription_vtls004566921'
 
 for root, dirs, files in os.walk(ships_dir):
     for file in files:
