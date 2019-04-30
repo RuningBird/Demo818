@@ -25,9 +25,9 @@ def get_ships(excel_ship_file):
         for sheet in wb:
             # get ship attributes from the first worksheet in the workbook
             ship = {}
-            ship["vessel name"] = vessel_name
-            ship["official number"] = official_number
-            ship["port of registry"] = port_of_registry
+            ship["vessel_name"] = vessel_name
+            ship["official_number"] = official_number
+            ship["port_of_registry"] = port_of_registry
             ship["mariners"] = []
 
             # get the start row for mariner data
