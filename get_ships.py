@@ -19,21 +19,24 @@ def get_ships(excel_ship_file):
               'this_ship_leaving_date', 'this_ship_leaving_port', 'this_ship_leaving_cause', 'signed_with_mark',
               'additional_notes']
     t_names = [str(i) for i in range(1, 18)]
-
+    df_data = None
+    print(excel_ship_file)
     df_data = pd.read_excel(excel_ship_file, skiprows=8, names=t_names)
     df_data.drop(['6'], axis=1, inplace=True)
     df_data.columns = labels
     df_data.dropna(axis=0, how='all', inplace=True)
 
-    tmp_file_name = str(time.time())
-    tmp_file_path = "./tmp/" + tmp_file_name + ".csv"
-    df_data.to_csv(tmp_file_path, index=False)
-
-    df_p = df_data = pd.read_csv(tmp_file_path)
+    # p_name = df_data[['name']].replace(to_replace=['blk', 'nan', 'No info'], value='John')
+    # p_year_of_birth = df_data[['year_of_birth']].replace(to_replace=['blk', 'nan', 'No info'], value=1855)
+    # p_age = df_data[['age']].replace(to_replace=['blk', 'nan', 'No info'], value=20)
+    # p_place_of_birth = df_data[['place_of_birth']].replace(to_replace=['blk', 'nan', 'No info'], value="London")
+    # p_home_address = df_data[['home_address']].replace(to_replace=['nan', 'No info'], value="blk")
+    # p_home_address = df_data[['home_address']].replace(to_replace=['nan', 'No info'], value="blk")
 
     df_data.fillna(axis=0, method='ffill', inplace=True)
+    df_data.fillna(axis=0, method='bfill', inplace=True)
+    df_data.replace(to_replace=['None'], value='None')
 
-    # df_data.fillna(value='unknow', inplace=True)
     # load the Excel workbook
     try:
         wb = load_workbook(filename=excel_ship_file)
@@ -43,29 +46,32 @@ def get_ships(excel_ship_file):
         official_number = wb.active[ship_excel_schema.official_number].value
         port_of_registry = wb.active[ship_excel_schema.port_of_registry].value
 
-        for sheet in wb:
-            # get ship attributes from the first worksheet in the workbook
-            ship = {}
-            ship["vessel_name"] = vessel_name
-            ship["official_number"] = official_number
-            ship["port_of_registry"] = port_of_registry
-            ship["mariners"] = []
+        ship = {}
+        ship["vessel_name"] = vessel_name
+        ship["official_number"] = official_number
+        ship["port_of_registry"] = port_of_registry
+        ship["mariners"] = []
 
-            # get the start row for mariner data
-            mariners_start_row = ship_excel_schema.mariners_start_row
+        # for sheet in wb:
+        #     # get ship attributes from the first worksheet in the workbook
+        #     # get the start row for mariner data
+        #     mariners_start_row = ship_excel_schema.mariners_start_row
+        #
+        #     # iterate over the worksheets to find all the mariner data
+        #     row = mariners_start_row
+        #     col = 1
+        #     while not (sheet.cell(column=col, row=row).value is None):
+        #         mariner = {}
+        #         for attr, col in ship_excel_schema.mariner_attributes.items():
+        #             if not sheet.cell(column=col, row=row).value is None:
+        #                 mariner[attr] = sheet.cell(column=col, row=row).value
+        #         ship["mariners"].append(mariner)
+        #         row += 1
+        #
+        #     ships.append(ship)
+        ship["mariners"] = df_data
+        ships.append(ship)
 
-            # iterate over the worksheets to find all the mariner data
-            row = mariners_start_row
-            col = 1
-            while not (sheet.cell(column=col, row=row).value is None):
-                mariner = {}
-                for attr, col in ship_excel_schema.mariner_attributes.items():
-                    if not sheet.cell(column=col, row=row).value is None:
-                        mariner[attr] = sheet.cell(column=col, row=row).value
-                ship["mariners"].append(mariner)
-                row += 1
-
-            ships.append(ship)
 
     except:
         # deal with the error if the file cannot be opened
