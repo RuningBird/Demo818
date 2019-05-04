@@ -10,7 +10,7 @@ engine = create_engine('mysql+pymysql://root:1122@192.168.101.27:3306/db_ships')
 
 all_ships = []
 
-ships_dir = '/home/hr/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921'
+ships_dir = '/home/hr/PycharmProjects/Demo818/test_data'
 
 
 def data_to_sql(file_name="", one_ships=[]):
@@ -73,11 +73,15 @@ def data_to_sql(file_name="", one_ships=[]):
         df_table.to_sql(file_name_hash, con=engine, index=False, if_exists='replace')
 
 
+files_path = []
 for root, dirs, files in os.walk(ships_dir):
     for file in files:
         name, ext = os.path.splitext(file)
         if ext == '.xlsx':
+            files_path.append(os.path.join(root, file))
             one_ships = get_ships.get_ships(os.path.join(root, file))
             all_ships += one_ships
 
             data_to_sql(file, one_ships)
+
+print(files_path)

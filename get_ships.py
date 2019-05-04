@@ -1,9 +1,11 @@
 import sys
 from openpyxl import load_workbook
+import pandas as pd
 
 # ship_excel_schema contains facts about about how the ship data is organized in Excel
 import ship_excel_schema
 import json
+import time
 
 
 # represent each sheet in an Excel workbook as a separate JSON object
@@ -12,7 +14,26 @@ import json
 def get_ships(excel_ship_file):
     # ships is the list of JSON ship objects that will be returned
     ships = []
+    labels = ['name', 'year_of_birth', 'age', 'place_of_birth', 'home_address', 'last_ship_name', 'last_ship_port',
+              'last_ship_leaving_date', 'this_ship_joining_date', 'this_ship_joining_port', 'this_ship_capacity',
+              'this_ship_leaving_date', 'this_ship_leaving_port', 'this_ship_leaving_cause', 'signed_with_mark',
+              'additional_notes']
+    t_names = [str(i) for i in range(1, 18)]
 
+    df_data = pd.read_excel(excel_ship_file, skiprows=8, names=t_names)
+    df_data.drop(['6'], axis=1, inplace=True)
+    df_data.columns = labels
+    df_data.dropna(axis=0, how='all', inplace=True)
+
+    tmp_file_name = str(time.time())
+    tmp_file_path = "./tmp/" + tmp_file_name + ".csv"
+    df_data.to_csv(tmp_file_path, index=False)
+
+    df_p = df_data = pd.read_csv(tmp_file_path)
+
+    df_data.fillna(axis=0, method='ffill', inplace=True)
+
+    # df_data.fillna(value='unknow', inplace=True)
     # load the Excel workbook
     try:
         wb = load_workbook(filename=excel_ship_file)
