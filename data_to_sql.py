@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm.session import Session
 import hashlib
 
-engine = create_engine('mysql+pymysql://root:1122@192.168.101.27:3306/db_ships')
+engine = create_engine('mysql+pymysql://root:1122@1106.12.108.158:3306/db_ships')
 # engine = create_engine('mysql+pymysql://root:1122@10.93.53.244/db_ships')  # company
 
 all_ships = []
