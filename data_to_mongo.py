@@ -15,12 +15,12 @@ class MongoBase:
     def OpenDB(self):
         user = 'root'
         passwd = '123'
-        # host = 'localhost'
         host = '106.12.108.158'
+        # host = 'localhost'
         port = '27017'
         auth_db = 'admin'
-        uri = "mongodb://" + user + ":" + passwd + "@" + host + ":" + port + "/" + auth_db
         # uri = "mongodb://" + user + ":" + passwd + "@" + host + ":" + port + "/" + auth_db + "?authMechanism=SCRAM-SHA-1"
+        uri = "mongodb://" + user + ":" + passwd + "@" + host + ":" + port + "/" + auth_db
         self.con = MongoClient(uri, connect=False)
         self.db = self.con['db_ships']
         self.collection = self.db[self.collection]
@@ -31,7 +31,7 @@ class MongoBase:
 
 def insert_df_to_mongo(df=pd.DataFrame(), collection_name=None):
     mongo = MongoBase(collection_name)
-    mongo.collection.insert(json.loads(df.T.to_json()).values())
+    r = mongo.collection.insert(json.loads(df.T.to_json()).values())
     mongo.closeDB()
 
 
@@ -62,6 +62,7 @@ def data_to_sql(file_name="", one_ships=[]):
 
             # 人员信息总表
             insert_df_to_mongo(mariners, 'z_all_members_info')
+
 
         except Exception as e:
             print(e)

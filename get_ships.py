@@ -26,13 +26,6 @@ def get_ships(excel_ship_file):
     df_data.columns = labels
     df_data.dropna(axis=0, how='all', inplace=True)
 
-    # p_name = df_data[['name']].replace(to_replace=['blk', 'nan', 'No info'], value='John')
-    # p_year_of_birth = df_data[['year_of_birth']].replace(to_replace=['blk', 'nan', 'No info'], value=1855)
-    # p_age = df_data[['age']].replace(to_replace=['blk', 'nan', 'No info'], value=20)
-    # p_place_of_birth = df_data[['place_of_birth']].replace(to_replace=['blk', 'nan', 'No info'], value="London")
-    # p_home_address = df_data[['home_address']].replace(to_replace=['nan', 'No info'], value="blk")
-    # p_home_address = df_data[['home_address']].replace(to_replace=['nan', 'No info'], value="blk")
-
     df_data.fillna(axis=0, method='ffill', inplace=True)
     df_data.fillna(axis=0, method='bfill', inplace=True)
     df_data.replace(to_replace=['None'], value='None')
@@ -51,24 +44,6 @@ def get_ships(excel_ship_file):
         ship["official_number"] = official_number
         ship["port_of_registry"] = port_of_registry
         ship["mariners"] = []
-
-        # for sheet in wb:
-        #     # get ship attributes from the first worksheet in the workbook
-        #     # get the start row for mariner data
-        #     mariners_start_row = ship_excel_schema.mariners_start_row
-        #
-        #     # iterate over the worksheets to find all the mariner data
-        #     row = mariners_start_row
-        #     col = 1
-        #     while not (sheet.cell(column=col, row=row).value is None):
-        #         mariner = {}
-        #         for attr, col in ship_excel_schema.mariner_attributes.items():
-        #             if not sheet.cell(column=col, row=row).value is None:
-        #                 mariner[attr] = sheet.cell(column=col, row=row).value
-        #         ship["mariners"].append(mariner)
-        #         row += 1
-        #
-        #     ships.append(ship)
         ship["mariners"] = df_data
         ships.append(ship)
 
