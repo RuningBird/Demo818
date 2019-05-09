@@ -71,9 +71,9 @@ def data_to_sql(file_name="", one_ships=[]):
 if __name__ == '__main__':
     # 批处理：设置文件夹路径
     # ships_dir = '/home/hr/PycharmProjects/Demo818/test_data'
-    # ships_dir = '/home/hr/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921'
+    ships_dir = '/home/hr/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921'
     # ships_dir = '/home/bbu/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921/Series 461 - 470'
-    ships_dir = '/home/bbu/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921'
+    # ships_dir = '/home/bbu/PycharmProjects/Demo818/ABERSHIP_transcription_vtls004566921'
 
     # 生成文件列表
     files_path = []
