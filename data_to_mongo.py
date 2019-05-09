@@ -15,10 +15,12 @@ class MongoBase:
     def OpenDB(self):
         user = 'root'
         passwd = '123'
-        host = 'localhost'
+        # host = 'localhost'
+        host = '106.12.108.158'
         port = '27017'
         auth_db = 'admin'
-        uri = "mongodb://" + user + ":" + passwd + "@" + host + ":" + port + "/" + auth_db + "?authMechanism=SCRAM-SHA-1"
+        uri = "mongodb://" + user + ":" + passwd + "@" + host + ":" + port + "/" + auth_db
+        # uri = "mongodb://" + user + ":" + passwd + "@" + host + ":" + port + "/" + auth_db + "?authMechanism=SCRAM-SHA-1"
         self.con = MongoClient(uri, connect=False)
         self.db = self.con['db_ships']
         self.collection = self.db[self.collection]
